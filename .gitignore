@@ -9,3 +9,7 @@ ethereum/typechain-types
 ethereum/cache
 ethereum/artifacts
 
+
+#client
+client/node_modules
+client/.next
