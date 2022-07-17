@@ -11,6 +11,6 @@ const ethAbi = [
     "function setDesc (string)"
 ]
 
-const Contract = (address) => new ethers.Contract(address, ethAbi, provider)
+const Contact = (address) => new ethers.Contract(address, ethAbi, provider)
 
-export default Contract;
+export default Contact;

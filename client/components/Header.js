@@ -1,9 +1,15 @@
 import { Button, Menu } from 'semantic-ui-react'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 const Header = () => {
 
     const [currentAccont, setCurrentAccount] = useState()
+
+    useEffect(()=>{
+        const savedAccount = localStorage.getItem('account')
+        if (savedAccount) setCurrentAccount(savedAccount)
+    },[])
+
 
     const handleLoginClick = async () => {
         const { ethereum } = window
@@ -14,6 +20,7 @@ const Header = () => {
         try {
             const accounts = await ethereum.request({ method: "eth_requestAccounts" })
             setCurrentAccount(accounts[0])
+            localStorage.setItem('account', accounts[0])
         }
         catch (e) {
             console.error(e.message)
