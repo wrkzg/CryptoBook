@@ -13,8 +13,15 @@ const ShowContact = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const [provider, setProvider] = useState();
     const [loading, setLoading] = useState(false);
+    const [metamask, setMetamask] = useState(true)
 
-    useEffect(() => setProvider(new ethers.providers.Web3Provider(window.ethereum)), [])
+    useEffect(() => {
+        if (typeof window.ethereum !== "undefined") {
+            setProvider(new ethers.providers.Web3Provider(window.ethereum))
+        } else {
+            setMetamask(false)
+        }
+    }, [])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -45,7 +52,8 @@ const ShowContact = () => {
     }
 
     return (<Layout>
-        <Form error={!!errorMessage} onSubmit={handleSubmit}>
+        {!metamask && <h1>Установите Metamask в ваш браузер!</h1>}
+        {metamask && <Form error={!!errorMessage} onSubmit={handleSubmit}>
             <Form.Field>
                 <label>Введите адрес здесь</label>
                 <input ref={addressRef} placeholder='адрес' />
@@ -53,11 +61,11 @@ const ShowContact = () => {
             <Button primary type='submit' loading={loading} >Посмотреть</Button>
             <Message
                 error
-                style={{wordBreak:"break-word"}}
+                style={{ wordBreak: "break-word" }}
                 header='ОШИБКА!'
                 content={errorMessage}
             />
-        </Form>
+        </Form>}
         {telegram && <h2>Telegram: {telegram}</h2>}
         {discord && <h2>Discord: {discord}</h2>}
         {desc && <h2>Description: {desc}</h2>}

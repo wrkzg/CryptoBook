@@ -11,9 +11,16 @@ const AddContact = () => {
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [provider, setProvider] = useState();
-    
+    const [metamask, setMetamask] = useState(true)
 
-    useEffect(() => setProvider(new ethers.providers.Web3Provider(window.ethereum)), [])
+
+    useEffect(() => {
+        if (typeof window.ethereum !== "undefined") {
+            setProvider(new ethers.providers.Web3Provider(window.ethereum))
+        } else {
+            setMetamask(false)
+        }
+    }, [])
 
 
     const handleSubmit = async (e) => {
@@ -49,7 +56,8 @@ const AddContact = () => {
     }
 
     return (<Layout>
-        <Form error={!!errorMessage} success={!!successMessage} onSubmit={handleSubmit}>
+        {!metamask && <h1>Установите Metamask в ваш браузер!</h1>}
+        {metamask && <Form error={!!errorMessage} success={!!successMessage} onSubmit={handleSubmit}>
             <Form.Group widths='equal'>
                 <Form.Field
                     control={Input}
@@ -78,7 +86,7 @@ const AddContact = () => {
                 header='Успех!'
                 content={successMessage}
             />
-        </Form>
+        </Form>}
     </Layout>);
 }
 
