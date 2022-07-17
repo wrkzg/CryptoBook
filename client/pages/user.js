@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Layout from "../components/Layout"
 import getContactByAddress from "../utils/getContactByAddress";
 
