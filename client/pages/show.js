@@ -30,12 +30,12 @@ const ShowContact = () => {
         setTelegram('')
         setDiscord('')
         setDesc('')
-        setLoading(true)
         console.log({ address });
         if (!address) {
             setErrorMessage("Не введен адрес пользователя");
             return
         }
+        setLoading(true)
         try {
             const contact = await getContactByAddress(provider, address);
             setTelegram(contact.telegram)
