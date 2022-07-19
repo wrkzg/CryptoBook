@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Form, Button, Message } from "semantic-ui-react";
+import { Form, Button, Message, Segment } from "semantic-ui-react";
 import Layout from "../components/Layout";
 import getContactByAddress from "../utils/getContactByAddress";
 import { ethers } from "ethers";
@@ -14,10 +14,12 @@ const ShowContact = () => {
     const [provider, setProvider] = useState();
     const [loading, setLoading] = useState(false);
     const [metamask, setMetamask] = useState(true)
+    const [show, setShow] = useState(false)
 
     useEffect(() => {
         if (typeof window.ethereum !== "undefined") {
             setProvider(new ethers.providers.Web3Provider(window.ethereum))
+            addressRef.current.focus()
         } else {
             setMetamask(false)
         }
@@ -30,6 +32,7 @@ const ShowContact = () => {
         setTelegram('')
         setDiscord('')
         setDesc('')
+        setShow(false)
         console.log({ address });
         if (!address) {
             setErrorMessage("Не введен адрес пользователя");
@@ -41,6 +44,7 @@ const ShowContact = () => {
             setTelegram(contact.telegram)
             setDiscord(contact.discord)
             setDesc(contact.desc)
+            setShow(true)
         }
         catch (e) {
             console.error(e)
@@ -66,9 +70,14 @@ const ShowContact = () => {
                 content={errorMessage}
             />
         </Form>}
-        {telegram && <h2>Telegram: {telegram}</h2>}
-        {discord && <h2>Discord: {discord}</h2>}
-        {desc && <h2>Description: {desc}</h2>}
+        {show && <>
+        <h1>Ваши контактные данные</h1>
+        <Segment.Group>
+            {telegram && <Segment><strong>Telegram: </strong>: {telegram}</Segment>}
+            {discord &&<Segment><strong>Discord:</strong> {discord}</Segment>}
+            {desc && <Segment><strong>Описание:</strong> {desc}</Segment>}
+        </Segment.Group>
+        </>}
     </Layout>);
 }
 

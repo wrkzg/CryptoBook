@@ -25,7 +25,11 @@ const Header = () => {
         catch (e) {
             console.error(e.message)
         }
+    }
 
+    const handleExit = () => {
+        setCurrentAccount('')
+        localStorage.removeItem('account')
     }
 
     return (
@@ -53,11 +57,19 @@ const Header = () => {
                         Вход
                     </Button>
                 ) : (
-                    <Link href="/user">
-                        <Button primary onClick={handleLoginClick}>{currentAccont}</Button>
-                    </Link>
+                    
+                        <Link href="/user">
+                            <Button primary>{currentAccont}</Button>
+                        </Link>
+                    
                 )}
             </Menu.Item>
+            {currentAccont && 
+                <Menu.Item>
+                    <Link href="/">
+                        <Button primary onClick={handleExit}>Выход</Button>
+                    </Link>
+                </Menu.Item>}
         </Menu>
 
     );

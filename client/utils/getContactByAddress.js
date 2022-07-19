@@ -8,17 +8,15 @@ const getContactByAddress = async (provider, address) => {
 
     const contactFactory = getContactFactory(provider)
 
-    const contactAddess = await contactFactory.ownerToContact(address)
-    if (contactAddess === ethers.constants.AddressZero) {
+    const contactAddress = await contactFactory.ownerToContact(address)
+    if (contactAddress === ethers.constants.AddressZero) {
         throw new Error("Такой контакт не найден")
     }
-    const contact = Contact(contactAddess)
-    console.log({ contactAddess })
+    const contact = Contact(provider, contactAddress)
 
     const telegram = await contact.telegram()
     const discord = await contact.discord()
     const desc = await contact.desc()
-    console.log({ telegram }, { discord }, { desc })
     return { telegram, discord, desc }
 }
 

@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button, Form, Input, Message } from "semantic-ui-react";
 import Layout from "../components/Layout";
 import getContactFactory from "../contactFactory";
@@ -12,11 +12,13 @@ const AddContact = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const [provider, setProvider] = useState();
     const [metamask, setMetamask] = useState(true)
+    const tgRef = useRef();
 
 
     useEffect(() => {
         if (typeof window.ethereum !== "undefined") {
             setProvider(new ethers.providers.Web3Provider(window.ethereum))
+            tgRef.current.focus()
         } else {
             setMetamask(false)
         }
@@ -59,13 +61,13 @@ const AddContact = () => {
         {!metamask && <h1>Установите Metamask в ваш браузер!</h1>}
         {metamask && <Form error={!!errorMessage} success={!!successMessage} onSubmit={handleSubmit}>
             <Form.Group widths='equal'>
-                <Form.Field
-                    control={Input}
-                    label='Telegram'
-                    value={telegram}
-                    onChange={(e) => setTelegram(e.target.value)}
-                    placeholder='telegram @nickname'
-                />
+                <Form.Field>
+                    <label>Telegram</label>
+                    <input ref={tgRef} 
+                           placeholder='telegram @nickname' 
+                           onChange={(e) => setTelegram(e.target.value)} 
+                           value={telegram}/>
+                </Form.Field>
                 <Form.Field
                     control={Input}
                     value={discord}
