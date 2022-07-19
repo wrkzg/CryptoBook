@@ -33,7 +33,6 @@ const ShowContact = () => {
         setDiscord('')
         setDesc('')
         setShow(false)
-        console.log({ address });
         if (!address) {
             setErrorMessage("Не введен адрес пользователя");
             return

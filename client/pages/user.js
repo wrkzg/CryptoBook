@@ -51,18 +51,17 @@ const UserPage = () => {
             {
                 setAddress(a)
                 getContact(p, a)
+                tgRef.current.focus()
             }
             else
             {
-                setLogon(false)
-                console.log('push')       
+                setLogon(false)   
                 router.push("/")
             }
         }  
         else 
         {
-            setMetamask(false) 
-            console.log('push')       
+            setMetamask(false)      
             router.push("/")
         }
     }, [])

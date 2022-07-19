@@ -38,15 +38,15 @@ const AddContact = () => {
         const signer = provider.getSigner()
         const contactFactory = getContactFactory(provider)
         const contactFactoryWithSigner = contactFactory.connect(signer)
-        console.log(contactFactoryWithSigner.functions)
+        
         try {
             let response;
             if (discord) {
                 response = await contactFactoryWithSigner["createContact(string,string)"](telegram, discord)
-                console.log("tg, dc")
+                
             } else {
                 response = await contactFactoryWithSigner["createContact(string)"](telegram)
-                console.log("tg only")
+                
             }
             console.log({ response })
             setSuccessMessage("Хэш транзакции: " + response.hash)
@@ -68,13 +68,12 @@ const AddContact = () => {
                            onChange={(e) => setTelegram(e.target.value)} 
                            value={telegram}/>
                 </Form.Field>
-                <Form.Field
-                    control={Input}
-                    value={discord}
-                    onChange={(e) => setDiscord(e.target.value)}
-                    label='Discord'
-                    placeholder='Discord account'
-                />
+                <Form.Field>
+                    <label>Discord</label>
+                    <input placeholder='Discord account'
+                           onChange={(e) => setDiscord(e.target.value)}
+                           value={discord}/>
+                </Form.Field>
             </Form.Group>
             <Button primary>Сохранить</Button>
             <Message
